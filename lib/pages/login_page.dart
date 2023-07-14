@@ -9,6 +9,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   double? _deviceHeight, _deviceWidth;
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  String? email;
+  String? password;
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
@@ -22,12 +25,55 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [_titleWidget(), _buttonWidget()],
+              children: [_titleWidget(), _loginForm(), _buttonWidget()],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _loginForm() {
+    return Container(
+      height: _deviceHeight! * 0.20,
+      child: Form(
+          key: _loginFormKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [_emailTextField(), _passwordTextField()],
+          )),
+    );
+  }
+
+  Widget _emailTextField() {
+    return TextFormField(
+      decoration: const InputDecoration(hintText: "Email.."),
+      onSaved: (_value) {
+        setState(() {
+          email = _value;
+        });
+      },
+      validator: (_value) {
+        bool _result = _value!.contains(RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"));
+        _result ? null : "Please Enter email";
+      },
+    );
+  }
+
+  Widget _passwordTextField() {
+    return TextFormField(
+        obscureText: true,
+        decoration: const InputDecoration(hintText: "Password.."),
+        onSaved: (_value) {
+          setState(() {
+            password = _value;
+          });
+        },
+        validator: (_value) =>
+            _value!.length > 6 ? null : "Please Enter Password ");
   }
 
   Widget _titleWidget() {
