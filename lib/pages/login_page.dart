@@ -25,7 +25,12 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [_titleWidget(), _loginForm(), _buttonWidget()],
+              children: [
+                _titleWidget(),
+                _loginForm(),
+                _buttonWidget(),
+                _registerPageLink(),
+              ],
             ),
           ),
         ),
@@ -58,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       validator: (_value) {
         bool _result = _value!.contains(RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+"));
-        _result ? null : "Please Enter email";
+        return _result ? null : "Please Enter email";
       },
     );
   }
@@ -86,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buttonWidget() {
     return MaterialButton(
-      onPressed: () {},
+      onPressed: _loginUser,
       minWidth: _deviceHeight! * 0.70,
       height: _deviceHeight! * 0.06,
       color: Colors.red,
@@ -96,5 +101,25 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
       ),
     );
+  }
+
+  Widget _registerPageLink() {
+    return GestureDetector(
+      child: const Text(
+        "don't have an account ?",
+        style: TextStyle(
+          color: Colors.blue,
+          fontSize: 15,
+          fontWeight: FontWeight.w200,
+        ),
+      ),
+      onTap: () => Navigator.pushNamed(context, 'register'),
+    );
+  }
+
+  void _loginUser() {
+    if (_loginFormKey.currentState!.validate()) {
+      _loginFormKey.currentState!.save();
+    }
   }
 }
