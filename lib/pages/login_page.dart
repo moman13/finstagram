@@ -83,11 +83,12 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _titleWidget() {
     return const Text(
-      "Finstagram",
+      "Ahmmed",
       style: TextStyle(
           color: Colors.black, fontSize: 25, fontWeight: FontWeight.w600),
     );
   }
+  /* @todo */
 
   Widget _buttonWidget() {
     return MaterialButton(
